@@ -40,7 +40,7 @@ const Profile = () => {
   
 
   return (
-    <div className="w-full flex flex-col gap-7 px-16 py-10">
+    <div className="w-full flex flex-col gap-7 px-16 py-10 overflow-y-scroll custom-scrollbar">
       <ProfileInfo creator={isTheUser ? userDetails : otherCreator} />
       < FilterSection handleClick={handleClick} id={id}/>
       <div className="w-full p-7">

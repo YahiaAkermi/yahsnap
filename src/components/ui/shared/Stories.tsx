@@ -9,7 +9,7 @@ const Stories = () => {
 
 
   return (
-    <ScrollArea className="w-[700px] whitespace-nowrap rounded-md  p-1">
+    <ScrollArea className="w-[700px] whitespace-nowrap rounded-md  p-1 max-lg:w-[500px] max-lg:px-2">
     <div className="flex justify-between items-center p-4 gap-10 w-max">
     {stories.map((story,index)=>(
                     <div className="flex flex-col justify-between items-center gap-2" key={index}>
