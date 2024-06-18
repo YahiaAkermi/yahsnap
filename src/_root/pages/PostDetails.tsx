@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
+import GridPostList from "@/components/ui/shared/GridPostList"
 import Loader from "@/components/ui/shared/Loader"
 import PostStats from "@/components/ui/shared/PostStats"
 import { useUserContext } from "@/context/AuthContext"
-import { useGetPostById } from "@/lib/react-query/queriesAndMutations"
+import { useGetPostById, useGetPostsByUser } from "@/lib/react-query/queriesAndMutations"
 import { timeAgo } from "@/lib/utils"
 import { Link, useParams } from "react-router-dom"
 
@@ -14,8 +16,16 @@ const PostDetails = () => {
 
   const {data:post,isPending}=useGetPostById(id || '')
 
+  
+  
   const {user} =useUserContext()
+  
+  const {data:relatedPosts}=useGetPostsByUser(post?.creator.$id);
 
+  const filtedRelatedPosts=relatedPosts?.documents.filter((post)=>post.$id !== id) || []
+
+  console.log(relatedPosts  )
+  
   const handleDeletePost = () => {
 
   }
@@ -77,6 +87,21 @@ const PostDetails = () => {
                  </div>
           </div>
          }
+         <Separator className=" bg-dark-4" />
+         <div className="w-full flex flex-col gap-7">
+            <h2 className="h3-bold ">Related Posts</h2>
+            <div className="w-full flex justify-center items-center">
+
+                  {
+                    filtedRelatedPosts?.length > 0 ?
+                    <GridPostList posts={filtedRelatedPosts}/>
+                    :
+                    <div className="w-full flex justify-center items-center text-light-4 font-semibold text-xl p-9">
+                            No Post for {user.name} for the moment
+                    </div> 
+                  }
+            </div>
+         </div>
     </div>
   )
 }

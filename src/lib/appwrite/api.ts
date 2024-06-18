@@ -579,3 +579,19 @@ export async function updateProfile(user: any): Promise<IUser> {
   }
 }
 
+export async function getPostsByUser(creatorId :any){
+  try {
+    const posts= await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postsCollectionId,
+      [Query.equal("creator",creatorId)]
+    )
+
+    if(!posts) throw Error
+
+    return posts;
+    
+  } catch (error) {
+    console.log(error)
+  }
+}

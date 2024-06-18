@@ -7,7 +7,7 @@ import {
         //for infinite scroll
 }  from '@tanstack/react-query'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { createPost, createUserAccount, deletePost, deleteSavedPost, getAllUser, getCurrentUser, getInfinitePosts, getPostById, getRecentPosts, getSavedPosts, getUserByUserId, likePost, savePost, searchPosts, signInAccount, signOutAccount, updatePost, updateProfile } from '../appwrite/api'
+import { createPost, createUserAccount, deletePost, deleteSavedPost, getAllUser, getCurrentUser, getInfinitePosts, getPostById, getPostsByUser, getRecentPosts, getSavedPosts, getUserByUserId, likePost, savePost, searchPosts, signInAccount, signOutAccount, updatePost, updateProfile } from '../appwrite/api'
 import { INewPost, INewUser, IUpdatePost } from '@/types'
 
 import { QUERY_KEYS } from "./queryKeys";
@@ -256,9 +256,17 @@ export const useSearchPost =(searchTerm : string) => {
       mutationFn:(user:any)=>updateProfile(user),
       onSuccess:(data)=>{
         queryClient.invalidateQueries({
-          queryKey:[QUERY_KEYS.GET_POST_BY_ID,data?.$id]
+          queryKey:[QUERY_KEYS.GET_POST_BY_ID,data]
           })
       }
     })
   
+  }
+
+  export const useGetPostsByUser=(creatorId:any)=>{
+
+    return useQuery({
+      queryKey:[QUERY_KEYS.GET_USER_POSTS],
+      queryFn:()=>getPostsByUser(creatorId)
+    })
   }
